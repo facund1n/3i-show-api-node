@@ -1,0 +1,19 @@
+{
+  "name": "3i-show-api-node",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/facund1n/3i-show-api-node.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/facund1n/3i-show-api-node/issues"
+  },
+  "homepage": "https://github.com/facund1n/3i-show-api-node#readme"
+}
