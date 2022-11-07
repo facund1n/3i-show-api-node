@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/facund1n/3i-show-api-node/issues"
   },
-  "homepage": "https://github.com/facund1n/3i-show-api-node#readme"
+  "homepage": "https://github.com/facund1n/3i-show-api-node#readme",
+  "dependencies": {
+    "express": "^4.18.2"
+  }
 }
