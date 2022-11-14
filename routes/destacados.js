@@ -10,7 +10,7 @@ router
     } catch (error) {
       res
         .status(400)
-        .json({ error: true, message: error + "ERROR en GET ALL" });
+        .json({ error: true, message: error + "ERROR en GET ALL destacados" });
     }
   })
   .get("/:id", async (req, res) => {

@@ -32,8 +32,11 @@ let corsOptions = {
 };
 
 //
-const destacadosRoutes = require("./routes/destacado");
+const destacadosRoutes = require("./routes/destacados");
 app.use("/destacados", cors(corsOptions), destacadosRoutes);
+
+const noticiasRoutes = require("./routes/noticias");
+app.use("/noticias", cors(corsOptions), noticiasRoutes);
 
 //PUERTO:
 const port = process.env.PORT;
