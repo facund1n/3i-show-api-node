@@ -1,24 +1,24 @@
 const router = require("express").Router();
-const Noticia = require("../models/noticia");
+const Show = require("../models/show");
 
 router
   .get("/all", async (req, res) => {
-    console.log("GET todos las noticias");
+    console.log("GET todos los shows");
     try {
-      const allNoticia = await Noticia.find();
-      res.status(200).send(allNoticia);
+      const allShow = await Show.find();
+      res.status(200).send(allShow);
     } catch (error) {
       res
         .status(400)
-        .json({ error: true, message: error + "ERROR en GET ALL noticias" });
+        .json({ error: true, message: error + "ERROR en GET ALL shows" });
     }
   })
   .get("/:id", async (req, res) => {
     const { id } = req.params;
     console.log("GET para 1 solo ID noticias" + id);
     try {
-      const noticia = await Noticia.findOne({ _id: id });
-      res.status(200).json(noticia);
+      const show = await Show.findOne({ _id: id });
+      res.status(200).json(show);
     } catch (error) {
       res.status(404).json({ error: true, message: error });
     }

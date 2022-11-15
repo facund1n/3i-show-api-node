@@ -1,7 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
-const noticiaSchema = new Schema({
+const showSchema = new Schema({
   title: String,
   description: String,
   imageSm: String,
@@ -10,5 +10,5 @@ const noticiaSchema = new Schema({
   altSm: String,
 });
 
-const Noticia = mongoose.model("noticia", noticiaSchema);
-module.exports = Noticia;
+const Show = mongoose.model("show", showSchema);
+module.exports = Show;
