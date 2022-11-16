@@ -18,6 +18,7 @@ mongoose
   .catch((error) => console.error(error));
 
 // Configuracion de CORS (evito errores de CORS)
+// esto hay que confiigurar para la gente que solo administre el front:
 var cors = require("cors");
 app.use(cors());
 let corsOptions = {
