@@ -6,22 +6,16 @@ app.use(express.json());
 // config Mongoose:
 const mongoose = require("mongoose");
 
-// colocar en .ENV luego:
-const user = "facundoss";
-const pass = "2DEBQWswk2U0rok8";
-const db = "metal-blog-show";
-const uri = `mongodb+srv://facundoss:${pass}@cluster0.poemtw6.mongodb.net/${db}?retryWrites=true&w=majority`;
+// Conf. de dotenv para uso de .ENV
+require("dotenv").config();
 
 mongoose
-  .connect(uri, {
+  .connect(process.env.URI_DB, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
   })
   .then(() => console.log("Database connection OK"))
   .catch((error) => console.error(error));
-
-// Conf. de dotenv para uso de .ENV
-require("dotenv").config();
 
 // Configuracion de CORS (evito errores de CORS)
 var cors = require("cors");
