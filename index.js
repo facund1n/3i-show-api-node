@@ -25,19 +25,18 @@ let corsOptions = {
   origin: "http://localhost:3000",
   optionsSuccessStatus: 200,
 };
+//PUERTO:
+const port = process.env.PORT;
 
 //
 const destacadosRoutes = require("./routes/destacados");
-app.use("/destacados", cors(corsOptions), destacadosRoutes);
-
 const noticiasRoutes = require("./routes/noticias");
-app.use("/noticias", cors(corsOptions), noticiasRoutes);
-
 const showsRoutes = require("./routes/shows");
+
+app.use("/destacados", cors(corsOptions), destacadosRoutes);
+app.use("/noticias", cors(corsOptions), noticiasRoutes);
 app.use("/shows", cors(corsOptions), showsRoutes);
 
-//PUERTO:
-const port = process.env.PORT;
 //listen CORRE API, si no, no corre.
 app.listen(port, () => {
   console.log("Running on port: " + port);
