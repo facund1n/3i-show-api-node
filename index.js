@@ -32,10 +32,12 @@ const port = process.env.PORT;
 const destacadosRoutes = require("./routes/destacados");
 const noticiasRoutes = require("./routes/noticias");
 const showsRoutes = require("./routes/shows");
+const galeriaRoutes = require("./routes/galeria");
 
 app.use("/destacados", cors(corsOptions), destacadosRoutes);
 app.use("/noticias", cors(corsOptions), noticiasRoutes);
 app.use("/shows", cors(corsOptions), showsRoutes);
+app.use("/galeria", cors(corsOptions), galeriaRoutes);
 
 //listen CORRE API, si no, no corre.
 app.listen(port, () => {
