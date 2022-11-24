@@ -33,11 +33,13 @@ const destacadosRoutes = require("./routes/destacados");
 const noticiasRoutes = require("./routes/noticias");
 const showsRoutes = require("./routes/shows");
 const galeriaRoutes = require("./routes/galerias");
+const usersRoutes = require("./routes/users");
 
 app.use("/destacados", cors(corsOptions), destacadosRoutes);
 app.use("/noticias", cors(corsOptions), noticiasRoutes);
 app.use("/shows", cors(corsOptions), showsRoutes);
 app.use("/galerias", cors(corsOptions), galeriaRoutes);
+app.use("/users", usersRoutes);
 
 //listen CORRE API, si no, no corre.
 app.listen(port, () => {
