@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-const User = require("../models/user.js");
+const { json } = require("express");
+const jwt = require("jsonwebtoken");
+const User = require("../models/user");
 
 router
   .get("/all", async (req, res) => {
@@ -16,64 +18,72 @@ router
   })
   .post("/login", async (req, res) => {
     const { body } = req;
-    console.log("POST /users/login");
 
-    const user = await User.findOne({
-      name: body.name,
-    });
+    const userWithEmail = await User.findOne({ email: body.email });
 
-    const passwordOk = await bcrypt.compare(body.password, user.password);
+    if (userWithEmail === null) {
+      return res
+        .status(400)
+        .json({ message: "Email o contraseña incorrectos." });
+    }
 
-    if (user && passwordOk) {
-      return res.status(200).json({
-        error: null,
-        message: "USER & PASS OK",
-        role: user.role || "user",
-      });
+    const unHashPassword = await bcrypt.compare(
+      body.password,
+      userWithEmail.password
+    );
+
+    if (!userWithEmail || !unHashPassword) {
+      return res
+        .status(400)
+        .json({ message: "Email o contraseña incorrectos" });
     } else {
-      return res.status(400).json({
-        error: true,
-        message: "Credenciales no correctas.",
-      });
+      try {
+        const jwtToken = jwt.sign(
+          { id: userWithEmail.id, email: userWithEmail.email },
+          process.env.JWT_SECRET
+        );
+        res.json({ message: "Bienvenido, redirigiendo..", token: jwtToken });
+      } catch (err) {
+        console.log(err);
+      }
     }
   })
+
   .post("/register", async (req, res) => {
     console.log("POST /users/register");
     const { body } = req;
-
     const newUserNameExist = await User.findOne({
       name: body.name,
     });
-
     const newUserEmailExist = await User.findOne({
       email: body.email,
     });
-
     // Cheque doble de previa existencia del usuario, en la API y en el Schema con unique
     if (newUserNameExist || newUserEmailExist) {
-      return res.status(400).json({
+      return res.status(404).json({
         error: true,
         message: "Usuario o Email ya existen.",
       });
-    }
-
-    // Aplico bcrypt
-    const salt = await bcrypt.genSalt(6);
-    const encryptedPassword = await bcrypt.hash(body.password, salt);
-
-    try {
-      const newUser = new User({
-        name: body.name,
-        email: body.email,
-        password: encryptedPassword,
-      });
-      await newUser.save();
-      newUser.password = body.password;
-      res.status(200).json(newUser);
-      console.log("ADD user " + newUser.name);
-    } catch (error) {
-      console.log(error);
-      res.status(400).json({ error: true, message: error });
+    } else {
+      // Aplico bcrypt
+      const salt = await bcrypt.genSalt(6);
+      const encryptedPassword = await bcrypt.hash(body.password, salt);
+      try {
+        const newUser = new User({
+          name: body.name,
+          email: body.email,
+          password: encryptedPassword,
+        });
+        await newUser.save();
+        newUser.password = body.password;
+        res
+          .status(200)
+          .json({ newUser, message: "Registro Exitoso... Redireccionando" });
+        console.log("ADD user " + newUser.name);
+      } catch (error) {
+        console.log(error);
+        res.status(400).json({ error: true, message: error });
+      }
     }
   })
   //con PUT no funciona, con PATCH toma siempre el primer valor del array... :(
@@ -99,28 +109,29 @@ router
     const { username } = req.params;
     console.log("DELETE/users/" + username);
 
-    // chequeo previamente si el user es el super usuario para no borrarlo nunca
-    const SUPER_USER = "admin";
+    const superUser = process.env.SUPER_USER;
 
-    if (username === SUPER_USER) {
+    if (username === superUser) {
       return res.status(400).json({
         error: true,
         message: "This user cannot be erased!",
       });
-    }
-
-    try {
+    } else {
       const delUser = await User.findOneAndDelete({
         name: username,
       });
-      res.status(200).json(delUser);
-      console.log("DEL user " + delUser.name);
-    } catch (error) {
-      console.log(error);
-      res.status(404).json({
-        error: true,
-        message: error,
-      });
+      console.log("deluaser ", delUser);
+      if (!delUser) {
+        try {
+          return res.status(404).json({
+            error: true,
+            message: "Usuario no existe1",
+          });
+        } finally {
+          console.log("DEL user " + delUser);
+          return res.status(200).json(delUser);
+        }
+      }
     }
   });
 
