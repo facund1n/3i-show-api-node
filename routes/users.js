@@ -19,27 +19,27 @@ router
   .post("/login", async (req, res) => {
     const { body } = req;
 
-    const userWithEmail = await User.findOne({ email: body.email });
+    const userWithName = await User.findOne({ name: body.name });
 
-    if (userWithEmail === null) {
+    if (userWithName === null) {
       return res
         .status(400)
-        .json({ message: "Email o contraseña incorrectos." });
+        .json({ message: "Nombre o contraseña incorrectos." });
     }
 
     const unHashPassword = await bcrypt.compare(
       body.password,
-      userWithEmail.password
+      userWithName.password
     );
 
-    if (!userWithEmail || !unHashPassword) {
+    if (!userWithName || !unHashPassword) {
       return res
         .status(400)
         .json({ message: "Email o contraseña incorrectos" });
     } else {
       try {
         const jwtToken = jwt.sign(
-          { id: userWithEmail.id, email: userWithEmail.email },
+          { id: userWithName.id, email: userWithName.email },
           process.env.JWT_SECRET
         );
         res.json({ message: "Bienvenido, redirigiendo..", token: jwtToken });

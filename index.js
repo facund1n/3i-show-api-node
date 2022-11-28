@@ -30,18 +30,23 @@ const port = process.env.PORT;
 
 //
 const destacadosRoutes = require("./routes/destacados");
+const destacadoscomentariosRoutes = require("./routes/destacadoscomentarios");
 const noticiasRoutes = require("./routes/noticias");
 const showsRoutes = require("./routes/shows");
 const galeriaRoutes = require("./routes/galerias");
 const usersRoutes = require("./routes/users");
 
 app.use("/destacados", cors(corsOptions), destacadosRoutes);
+app.use(
+  "/destacadoscomentarios",
+  cors(corsOptions),
+  destacadoscomentariosRoutes
+);
 app.use("/noticias", cors(corsOptions), noticiasRoutes);
 app.use("/shows", cors(corsOptions), showsRoutes);
 app.use("/galerias", cors(corsOptions), galeriaRoutes);
-app.use("/users", usersRoutes);
+app.use("/users", cors(corsOptions), usersRoutes);
 
-//listen CORRE API, si no, no corre.
 app.listen(port, () => {
   console.log("Running on port: " + port);
 });
