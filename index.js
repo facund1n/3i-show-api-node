@@ -29,23 +29,26 @@ let corsOptions = {
 const port = process.env.PORT;
 
 //
-const destacadosRoutes = require("./routes/destacados");
+/* const destacadosRoutes = require("./routes/destacados");
 const destacadoscomentariosRoutes = require("./routes/destacadoscomentarios");
 const noticiasRoutes = require("./routes/noticias");
-const showsRoutes = require("./routes/shows");
-const galeriaRoutes = require("./routes/galerias");
+const showsRoutes = require("./routes/shows");*/
 const usersRoutes = require("./routes/users");
+const galeriaRoutes = require("./routes/galerias");
+const articlesRoutes = require("./routes/articles");
 
-app.use("/destacados", cors(corsOptions), destacadosRoutes);
+/* app.use("/destacados", cors(corsOptions), destacadosRoutes);
 app.use(
   "/destacadoscomentarios",
   cors(corsOptions),
   destacadoscomentariosRoutes
 );
 app.use("/noticias", cors(corsOptions), noticiasRoutes);
-app.use("/shows", cors(corsOptions), showsRoutes);
+app.use("/shows", cors(corsOptions), showsRoutes);*/
+
+app.use("/", cors(corsOptions), usersRoutes);
 app.use("/galerias", cors(corsOptions), galeriaRoutes);
-app.use("/users", cors(corsOptions), usersRoutes);
+app.use("/", cors(corsOptions), articlesRoutes);
 
 app.listen(port, () => {
   console.log("Running on port: " + port);
