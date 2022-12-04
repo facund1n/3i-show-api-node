@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 router
-  .get("/all", async (req, res) => {
+  .get("/users", async (req, res) => {
     console.log("GET /users/all");
     try {
       const allUsers = await User.find();
@@ -87,7 +87,7 @@ router
     }
   })
   //con PUT no funciona, con PATCH toma siempre el primer valor del array... :(
-  .patch("/update/:username", async (req, res) => {
+  .patch("/users/update/:username", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
     console.log("PUT/users/update" + username);
@@ -105,7 +105,7 @@ router
       });
     }
   })
-  .delete("/delete/:username", async (req, res) => {
+  .delete("/users/delete/:username", async (req, res) => {
     const { username } = req.params;
     console.log("DELETE/users/" + username);
 

@@ -26,6 +26,12 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
+  saved: {
+    type: Array,
+  },
+  liked: {
+    type: Array,
+  },
 });
 
 const User = mongoose.model("users", userSchema);
