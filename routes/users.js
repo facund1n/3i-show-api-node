@@ -105,6 +105,26 @@ router
       });
     }
   })
+  // end point para guardar una publciación:
+  .patch("/users/:username/saved", async (req, res) => {
+    const { username } = req.params;
+    const { body } = req;
+    console.log("BODY: ", body);
+    // encuentra usuario y luego pushea solo las values del body al schema
+    try {
+      const findUser = await User.updateOne(
+        { name: username },
+        { $push: { saved: Object.values(body) } }
+      );
+      return res.status(200).json({ message: "se guardó con éxito" });
+    } catch (error) {
+      console.log(error);
+      return res.status(404).json({
+        error: true,
+        message: error,
+      });
+    }
+  })
   .delete("/users/delete/:username", async (req, res) => {
     const { username } = req.params;
     console.log("DELETE/users/" + username);
