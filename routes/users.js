@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const bcrypt = require("bcryptjs");
-const { json } = require("express");
+const { parse } = require("dotenv");
 const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
@@ -109,14 +109,25 @@ router
   .patch("/users/:username/saved", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
-    console.log("BODY: ", body);
-    // encuentra usuario y luego pushea solo las values del body al schema
+
     try {
-      const findUser = await User.updateOne(
-        { name: username },
-        { $push: { saved: Object.values(body) } }
-      );
-      return res.status(200).json({ message: "se guardó con éxito" });
+      const findSaved = await User.findOne({ name: username });
+
+      const userStringfied = findSaved.saved.toString();
+
+      if (userStringfied === body.saved) {
+        const delPost = await User.updateMany(
+          { name: username },
+          { $pull: { saved: body.saved } }
+        );
+        return res.status(200).json({ message: "se Borró con éxito" });
+      } else {
+        const addPost = await User.updateMany(
+          { name: username },
+          { $push: { saved: body.saved } }
+        );
+        return res.status(200).json({ message: "se Guardó con éxito" });
+      }
     } catch (error) {
       console.log(error);
       return res.status(404).json({
@@ -124,6 +135,18 @@ router
         message: error,
       });
     }
+
+    /*       const addPost = await User.updateMany(
+        { name: username },
+        { $addToSet: { saved: body.saved } }
+      );
+      return res.status(200).json({ message: "se guardó con éxito" });
+    } catch (error) {
+      console.log(error);
+      return res.status(404).json({
+        error: true,
+        message: error,
+      }); */
   })
   .delete("/users/delete/:username", async (req, res) => {
     const { username } = req.params;
@@ -145,7 +168,7 @@ router
         try {
           return res.status(404).json({
             error: true,
-            message: "Usuario no existe1",
+            message: "Usuario no existe!",
           });
         } finally {
           console.log("DEL user " + delUser);

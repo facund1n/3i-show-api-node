@@ -26,8 +26,8 @@ const userSchema = new Schema({
     type: Date,
     default: Date.now,
   },
-  saved: { type: [String], default: [], required: true },
-  liked: { type: [String], default: [], required: true },
+  saved: { type: Array, required: true },
+  liked: { type: Array, required: true },
 });
 
 const User = mongoose.model("users", userSchema);
