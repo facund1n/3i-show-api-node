@@ -106,13 +106,12 @@ router
     }
   })
   // end point para guardar una publciación:
-  .patch("/users/:username/saved", async (req, res) => {
+  .patch("/users/:username/save", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
 
     try {
       const findSaved = await User.findOne({ name: username });
-
       const userStringfied = findSaved.saved.toString();
 
       if (userStringfied === body.saved) {
@@ -135,18 +134,6 @@ router
         message: error,
       });
     }
-
-    /*       const addPost = await User.updateMany(
-        { name: username },
-        { $addToSet: { saved: body.saved } }
-      );
-      return res.status(200).json({ message: "se guardó con éxito" });
-    } catch (error) {
-      console.log(error);
-      return res.status(404).json({
-        error: true,
-        message: error,
-      }); */
   })
   .delete("/users/delete/:username", async (req, res) => {
     const { username } = req.params;
