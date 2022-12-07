@@ -140,6 +140,41 @@ router
         message: error,
       });
     }
+  }) // end point para likear una publciación:
+  .patch("/users/:username/like", async (req, res) => {
+    const { username } = req.params;
+    const { body } = req;
+    const userExist = await User.find({
+      name: username,
+    })
+      .count()
+      .exec(); // si existe retorna: 1, sino: 0
+    const likeExist = await User.find({
+      liked: body.liked,
+    })
+      .count()
+      .exec(); // si existe retorna: 1, sino: 0
+
+    try {
+      if (userExist === likeExist) {
+        await User.updateMany(
+          { name: username },
+          { $pull: { liked: body.liked } }
+        );
+        return res.status(200).json({ message: "Dislike" });
+      } else {
+        await User.updateMany(
+          { name: username },
+          { $push: { liked: body.liked } }
+        );
+        return res.status(200).json({ message: "Like" });
+      }
+    } catch (error) {
+      return res.status(404).json({
+        error: true,
+        message: error,
+      });
+    }
   })
   .delete("/users/delete/:username", async (req, res) => {
     const { username } = req.params;
