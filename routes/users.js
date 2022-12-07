@@ -109,26 +109,32 @@ router
   .patch("/users/:username/save", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
+    const userExist = await User.find({
+      name: username,
+    })
+      .count()
+      .exec(); // si existe retorna: 1, sino: 0
+    const postExist = await User.find({
+      saved: body.saved,
+    })
+      .count()
+      .exec(); // si existe retorna: 1, sino: 0
 
     try {
-      const findSaved = await User.findOne({ name: username });
-      const userStringfied = findSaved.saved.toString();
-
-      if (userStringfied === body.saved) {
-        const delPost = await User.updateMany(
+      if (userExist === postExist) {
+        await User.updateMany(
           { name: username },
           { $pull: { saved: body.saved } }
         );
         return res.status(200).json({ message: "se Borró con éxito" });
       } else {
-        const addPost = await User.updateMany(
+        await User.updateMany(
           { name: username },
           { $push: { saved: body.saved } }
         );
         return res.status(200).json({ message: "se Guardó con éxito" });
       }
     } catch (error) {
-      console.log(error);
       return res.status(404).json({
         error: true,
         message: error,
