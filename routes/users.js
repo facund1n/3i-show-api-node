@@ -109,26 +109,29 @@ router
   .patch("/users/:username/save", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
-    const userExist = await User.find({
-      name: username,
-    })
+    const userExist = await User.findOne()
+      .where({
+        name: username,
+      })
       .count()
       .exec(); // si existe retorna: 1, sino: 0
-    const postExist = await User.find({
-      saved: body.saved,
-    })
+    const postExist = await User.findOne()
+      .where({
+        name: username,
+        saved: body.saved,
+      })
       .count()
       .exec(); // si existe retorna: 1, sino: 0
 
     try {
       if (userExist === postExist) {
-        await User.updateMany(
+        const delPost = await User.updateMany(
           { name: username },
           { $pull: { saved: body.saved } }
         );
         return res.status(200).json({ message: "se Borró con éxito" });
       } else {
-        await User.updateMany(
+        const savePost = await User.updateMany(
           { name: username },
           { $push: { saved: body.saved } }
         );
@@ -140,21 +143,28 @@ router
         message: error,
       });
     }
-  }) // end point para likear una publciación:
+  })
+  /*   .get("/users/:username/saved", async (req, res) => {
+    const { username } = req.params;
+    const getSaved = await User.findOne({ name: username });
+    console.log("getSaved: ", getSaved, typeof getSaved);
+    return res.status(200).json(getSaved);
+  })  */ // end point para likear una publciación:
   .patch("/users/:username/like", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
-    const userExist = await User.find({
+    const userExist = await User.findOne({
       name: username,
     })
       .count()
       .exec(); // si existe retorna: 1, sino: 0
-    const likeExist = await User.find({
-      liked: body.liked,
-    })
+    const likeExist = await User.findOne()
+      .where({
+        name: username,
+        liked: body.liked,
+      })
       .count()
       .exec(); // si existe retorna: 1, sino: 0
-
     try {
       if (userExist === likeExist) {
         await User.updateMany(
@@ -179,9 +189,7 @@ router
   .delete("/users/delete/:username", async (req, res) => {
     const { username } = req.params;
     console.log("DELETE/users/" + username);
-
     const superUser = process.env.SUPER_USER;
-
     if (username === superUser) {
       return res.status(400).json({
         error: true,
