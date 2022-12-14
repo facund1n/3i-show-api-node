@@ -28,8 +28,6 @@ let corsOptions = {
 //PUERTO:
 const port = process.env.PORT;
 
-//
-
 const usersRoutes = require("./routes/users");
 const galeriaRoutes = require("./routes/galerias");
 const articlesRoutes = require("./routes/articles");
