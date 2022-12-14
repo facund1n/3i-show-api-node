@@ -35,7 +35,6 @@ router
       res.status(400).json({ message: error });
     }
   })
-  // Obtener un solo destacados por ID:
   .get("/articulos/destacados/:id", async (req, res) => {
     const { id } = req.params;
     try {
@@ -63,7 +62,6 @@ router
       res.status(404).json({ message: error });
     }
   })
-  // Postear un nuevo destacado:
   .post("/articulos/destacado/new", async (req, res) => {
     const { body } = req;
     try {
@@ -94,7 +92,6 @@ router
       res.status(400).json({ error: true, message: error });
     }
   })
-  // Actualizar un solo destacado por ID:
   .patch("/articulos/destacados/update/:id", async (req, res) => {
     const { id } = req.params;
     const { body } = req;
@@ -140,7 +137,6 @@ router
       });
     }
   })
-  // Borrar un solo destacado por ID:
   .delete("/articulos/destacados/delete/:id", async (req, res) => {
     const { id } = req.params;
     try {
