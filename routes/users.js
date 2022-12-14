@@ -35,14 +35,14 @@ router
     if (!userWithName || !unHashPassword) {
       return res
         .status(400)
-        .json({ message: "Email o contraseña incorrectos" });
+        .json({ message: "Usuario o contraseña incorrectos" });
     } else {
       try {
         const jwtToken = jwt.sign(
           { id: userWithName.id, email: userWithName.email },
           process.env.JWT_SECRET
         );
-        res.json({ message: "Bienvenido, redirigiendo..", token: jwtToken });
+        res.json({ message: "Bienvenido/a, redirigiendo..", token: jwtToken });
       } catch (err) {
         console.log(err);
       }
@@ -105,7 +105,7 @@ router
       });
     }
   })
-  // end point para guardar una publciación:
+  // end point para guardar/borrar una publciación:
   .patch("/users/:username/save", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
@@ -129,13 +129,13 @@ router
           { name: username },
           { $pull: { saved: body.saved } }
         );
-        return res.status(200).json({ message: "se Borró con éxito" });
+        return res.status(200).json({ message: "Borrado con éxito" });
       } else {
         const savePost = await User.updateMany(
           { name: username },
           { $push: { saved: body.saved } }
         );
-        return res.status(200).json({ message: "se Guardó con éxito" });
+        return res.status(200).json({ message: "Guardado con éxito" });
       }
     } catch (error) {
       return res.status(404).json({
@@ -144,12 +144,7 @@ router
       });
     }
   })
-  /*   .get("/users/:username/saved", async (req, res) => {
-    const { username } = req.params;
-    const getSaved = await User.findOne({ name: username });
-    console.log("getSaved: ", getSaved, typeof getSaved);
-    return res.status(200).json(getSaved);
-  })  */ // end point para likear una publciación:
+  // end point para dale like/dislike una publciación:
   .patch("/users/:username/like", async (req, res) => {
     const { username } = req.params;
     const { body } = req;
@@ -178,6 +173,44 @@ router
           { $push: { liked: body.liked } }
         );
         return res.status(200).json({ message: "Like" });
+      }
+    } catch (error) {
+      return res.status(404).json({
+        error: true,
+        message: error,
+      });
+    }
+  })
+  .get("/users/:username/saved", async (req, res) => {
+    const { username } = req.params;
+    // const { body } = req;
+    const userExist = await User.findOne({
+      name: username,
+    });
+
+    try {
+      if (userExist) {
+        const user = await User.find({ name: username });
+        return res.status(200).send(user);
+      }
+    } catch (error) {
+      return res.status(404).json({
+        error: true,
+        message: error,
+      });
+    }
+  })
+  .get("/users/:username/liked", async (req, res) => {
+    const { username } = req.params;
+    // const { body } = req;
+    const userExist = await User.findOne({
+      name: username,
+    });
+
+    try {
+      if (userExist) {
+        const user = await User.find({ name: username });
+        return res.status(200).send(user);
       }
     } catch (error) {
       return res.status(404).json({
