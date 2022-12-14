@@ -34,9 +34,9 @@ const usersRoutes = require("./routes/users");
 const galeriaRoutes = require("./routes/galerias");
 const articlesRoutes = require("./routes/articles");
 
-app.use("/", cors(corsOptions), usersRoutes);
-app.use("/galerias", cors(corsOptions), galeriaRoutes);
-app.use("/", cors(corsOptions), articlesRoutes);
+app.use("/", usersRoutes);
+app.use("/galerias", galeriaRoutes);
+app.use("/", articlesRoutes);
 
 app.listen(port, () => {
   console.log("Running on port: " + port);
