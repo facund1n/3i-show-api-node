@@ -27,7 +27,7 @@ Este proyecto maneja:
 
 - Registro / Login:
 
-Validaciones que se complementan con el Front, tanto para login y registro, se hacen las querys correspondientes a la base de datos y retornan mensaje con error o sin el.
+Validaciones que se complementan con el Front, tanto para login y registro, se hacen las querys correspondientes a la base de datos y retornan mensaje con error o sin el que muestra el Front y Consola de Node.
 
 Registro: Se encriptan las contraseñas a guardar en la base de datos de cada usuario con bcryptjs.
 
