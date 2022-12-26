@@ -7,12 +7,12 @@ Back End Proyecto Final comisión 3i.
 ### `npm install`
 
 - Dependencies:
-  - "bcryptjs": "^2.4.3"
-  - "cors": "^2.8.5"
-  - "dotenv": "^16.0.3"
-  - "express": "^4.18.2"
-  - "jsonwebtoken": "^8.5.1"
-  - "mongoose": "^6.7.2"
+  - Bcryptjs - ^2.4.3
+  - Cors: 2.8.5
+  - Dotenv: ^16.0.3
+  - Express: ^4.18.2
+  - Jsonwebtoken ^8.5.1
+  - Mongoose: ^6.7.2
 
 # Descripción:
 
