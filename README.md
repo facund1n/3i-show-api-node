@@ -22,8 +22,8 @@ Este proyecto maneja:
 
 - Express: peticiones HTTP - alta, baja, modificación, creación:
 
-Usuarios: desde Front-end (sesion: login / registro)
-Artículos: desde Postman / Mongodb.
+* Usuarios: desde Front-end (sesion: login / registro)
+* Artículos: desde Postman / Mongodb.
 
 - Registro / Login:
 
