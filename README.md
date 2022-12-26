@@ -1,6 +1,7 @@
 # 3i-show-api-node
 
-Back End Proyecto Final comisión 3i.
+Back End Proyecto Final comisión 3i solo proyect - Sanchez Facundo Samuel.
+https://github.com/facund1n
 
 - Scripts:
 
