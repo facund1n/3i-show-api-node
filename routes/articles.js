@@ -72,27 +72,7 @@ router
       res.status(400).json({ message: error });
     }
   })
-  .post("/articulos/noticias/new", async (req, res) => {
-    const { body } = req;
-    try {
-      const newNoticia = new Article(body);
-      await newNoticia.save();
-      res.status(200).json(newNoticia);
-    } catch (error) {
-      res.status(400).json({ error: true, message: error });
-    }
-  })
-  .post("/articulos/shows/new", async (req, res) => {
-    const { body } = req;
-    try {
-      const newShow = new Article(body);
-      await newShow.save();
-      res.status(200).json(newShow);
-    } catch (error) {
-      res.status(400).json({ error: true, message: error });
-    }
-  })
-  .patch("/articulos/destacados/update/:id", async (req, res) => {
+  .patch("/articulos/update/:id", async (req, res) => {
     const { id } = req.params;
     const { body } = req;
     try {
@@ -107,37 +87,7 @@ router
       });
     }
   })
-  .patch("/articulos/noticias/update/:id", async (req, res) => {
-    const { id } = req.params;
-    const { body } = req;
-    try {
-      const modNoticia = await Article.findByIdAndUpdate(id, body, {
-        useFindAndModify: false,
-      });
-      res.status(200).json(modNoticia);
-    } catch (error) {
-      res.status(404).json({
-        error: true,
-        message: error,
-      });
-    }
-  })
-  .patch("/articulos/shows/update/:id", async (req, res) => {
-    const { id } = req.params;
-    const { body } = req;
-    try {
-      const modShow = await Article.findByIdAndUpdate(id, body, {
-        useFindAndModify: false,
-      });
-      res.status(200).json(modShow);
-    } catch (error) {
-      res.status(404).json({
-        error: true,
-        message: error,
-      });
-    }
-  })
-  .delete("/articulos/destacados/delete/:id", async (req, res) => {
+  .delete("/articulos/delete/:id", async (req, res) => {
     const { id } = req.params;
     try {
       const delDestacado = await Article.findByIdAndDelete({
@@ -149,46 +99,6 @@ router
         error: true,
         message: error,
       });
-    }
-  })
-  .delete("/articulos/noticias/delete/:id", async (req, res) => {
-    const { id } = req.params;
-    try {
-      const delNoticia = await Article.findByIdAndDelete({
-        _id: id,
-      });
-      res.status(200).json(delNoticia);
-    } catch (error) {
-      res.status(404).json({
-        error: true,
-        message: error,
-      });
-    }
-  })
-  .delete("/articulos/shows/delete/:id", async (req, res) => {
-    const { id } = req.params;
-    try {
-      const delShow = await Article.findByIdAndDelete({
-        _id: id,
-      });
-      res.status(200).json(delShow);
-    } catch (error) {
-      res.status(404).json({
-        error: true,
-        message: error,
-      });
-    }
-  })
-  .get("/search?query=:input", async (req, res) => {
-    const { input } = req.query;
-    console.log(input);
-    try {
-      const allArticles = await Article.find({
-        tags: input,
-      });
-      res.status(200).send(allArticles);
-    } catch (error) {
-      res.status(400).json({ message: error });
     }
   });
 
