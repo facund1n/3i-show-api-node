@@ -62,12 +62,12 @@ router
       res.status(404).json({ message: error });
     }
   })
-  .post("/articulos/destacados/new", async (req, res) => {
+  .post("/articulos/new", async (req, res) => {
     const { body } = req;
     try {
-      const newDestacado = new Article(body);
-      await newDestacado.save();
-      res.status(200).json(newDestacado);
+      const newArticle = new Article(body);
+      await newArticle.save();
+      res.status(200).json(newArticle);
     } catch (error) {
       res.status(400).json({ message: error });
     }
