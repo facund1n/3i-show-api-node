@@ -90,10 +90,10 @@ router
   .delete("/articulos/delete/:id", async (req, res) => {
     const { id } = req.params;
     try {
-      const delDestacado = await Article.findByIdAndDelete({
+      const delArticle = await Article.findByIdAndDelete({
         _id: id,
       });
-      res.status(200).json(delDestacado);
+      res.status(200).json(delArticle);
     } catch (error) {
       res.status(404).json({
         error: true,
