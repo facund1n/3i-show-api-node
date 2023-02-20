@@ -62,7 +62,7 @@ router
       res.status(404).json({ message: error });
     }
   })
-  .post("/articulos/destacado/new", async (req, res) => {
+  .post("/articulos/destacados/new", async (req, res) => {
     const { body } = req;
     try {
       const newDestacado = new Article(body);
