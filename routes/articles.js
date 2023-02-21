@@ -69,7 +69,7 @@ router
       await newArticle.save();
       res.status(200).json({ newArticle, message: "Subido con éxito" });
     } catch (error) {
-      res.status(400).json({ message: "Error al subir" });
+      res.status(400).json({ error: true, message: "Error al subir" });
     }
   })
   .patch("/articulos/update/:id", async (req, res) => {
