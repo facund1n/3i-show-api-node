@@ -7,7 +7,7 @@ const articleSchema = new Schema({
   body: { type: String, required: true, min: 10, max: 500 },
   image: { type: String, required: true },
   alt: { type: String, required: true },
-  category: { String, required: true },
+  category: { type: String, required: true },
   likes: Array,
   ticketsUrl: String,
   tags: Array,
