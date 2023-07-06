@@ -37,5 +37,5 @@ app.use("/galerias", galeriaRoutes);
 app.use("/", articlesRoutes);
 
 app.listen(port, () => {
-  console.log("Running on port: " + port);
+  console.log("Running on port:" + port);
 });
